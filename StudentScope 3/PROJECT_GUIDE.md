@@ -66,5 +66,5 @@ The app is a session-based academic prototype. Download CSV backups before refre
 | Student | Enrollment number |
 | --- | --- |
 | Tushar Nayak | IU2441230774 |
-| Bhargav Padmani | IU2441230775 |
-| Arkey Gatrad | IU2441230776 |
+| Bhargav Padmani | IU2441230776 |
+| Arkey Gatrad | IU2441230775 |

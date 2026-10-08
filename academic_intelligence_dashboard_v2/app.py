@@ -1,11 +1,11 @@
-"""Academic Intelligence entrypoint: preserve V2 until durable V3 storage is configured.
+"""Academic Intelligence entrypoint.
 
-V3 uses independent v3_* tables and requires DATABASE_URL in Render.
-Without DATABASE_URL, maintain current V2 behavior to avoid temporary account storage.
+V3 requires both durable database configuration and explicit rollout activation.
+V2 stays live until V3_ENABLED=1 and DATABASE_URL are both configured on Render.
 """
 import os
 
-if os.getenv("DATABASE_URL", "").strip():
+if os.getenv("V3_ENABLED", "") == "1" and os.getenv("DATABASE_URL", "").strip():
     from v3_dashboard import run
     run()
 else:

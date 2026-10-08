@@ -1,88 +1,64 @@
+# Academic Intelligence Dashboard V3.0
 
-# Academic Intelligence Dashboard V2.0
+This folder contains **V3**. The complete original V2 application remains preserved as app_v2_legacy.py. The deployed V2 demo data has **not** been copied into V3: older marks belong to an unprotected shared SQLite database and must not be assigned to new accounts without owner verification.
 
-A complete Streamlit + Python academic analytics project.
+## What's new
 
-## Project Members
+- Register, sign in and sign out of separate accounts (PBKDF2 salted password hashes).
+- SQLAlchemy persistence with PostgreSQL in production and SQLite locally.
+- Every academic record is scoped to the signed-in account.
+- Configurable percentage-to-grade-point mapping, credit-weighted SGPA / CGPA.
+- Separate CIE theory, midsemester, CIE practical, ESE practical and ESE theory marks.
+- Target calculator, interactive SGPA what-if simulation and component backlog tracker.
+- Plotly charts, subject trend forecasting, attendance, assignments and goals.
+- Responsive Streamlit interface and exportable private PDF / CSV reports.
+- Isolated per-account sample data.
 
-| Name | Enrollment Number |
-|---|---|
-| TUSHAR NAYAK | IU2441230774 |
-| BHARGAV PADMANI | IU2441230776 |
-| ARKEY GATRAD | IU2441230775 |
+## Run locally
 
-## Main Features
+~~~bash
+python -m pip install -r requirements.txt pytest
+python -m pytest -q tests/test_v3.py
+streamlit run app.py --server.address 0.0.0.0
+~~~
 
-- Animated landing page and animated project-member cards
-- Demo login screen
-- SQLite database storage
-- Marks entry and editing
-- CSV import and export
-- Semester-wise marks analysis
-- Subject comparison charts
-- SGPA and CGPA estimation
-- NumPy linear-trend prediction
-- Rule-based smart performance insights
-- Target marks calculator
-- Attendance tracker with shortage warning
-- Assignment tracker
-- Academic goal tracker
-- PDF academic report generator
-- Responsive Streamlit dashboard
-- About / project technology page
+SQLite is automatically used for local development; set V3_SQLITE_PATH to choose its database file.
 
-## Demo Login
+## Production deployment
 
-```text
-Username: student
-Password: project123
-```
+Use an existing PostgreSQL database and set DATABASE_URL to its **internal** connection URL as a secret on the Render web service. **Never commit a DB URL, password or other secret to GitHub.**
 
-This login is only for a college-project demonstration. It is not intended as production authentication.
+- Root directory: academic_intelligence_dashboard_v2
+- Build: pip install -r requirements.txt
+- Start: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+- Health check: /_stcore/health
 
-## Run Locally
+On Render, persistent database configuration is required before enabling public registration. Verify the database is reachable, and back up any important data before upgrading. A Render free PostgreSQL plan has an expiration date and **is not suitable as permanent user-data storage**. Upgrade database service and configure backup/restore before using V3 with real student records.
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
+The V3 schema is intentionally separate (v3_* tables) so it never overwrites legacy V2 data. Do not remove the original app or local database until you've verified migrated records.
 
-## Render Start Command
+### Important limitations
 
-```bash
-streamlit run app.py --server.port $PORT --server.address 0.0.0.0
-```
+1. **Demo thresholds**: Grade points are configurable but not verified against current Indus University policy. Pass/fail and component minimums may differ.
+2. **SGPA planner**: The simulator calculates a credit-weighted SGPA for explicitly entered what-if marks; the per-subject 9 GP column is an illustrative minimum, not a guarantee.
+3. **Predictions**: Linear trend extrapolations need at least two records of the same subject in different semesters.
+4. **Login**: Basic password hashing and per-user ownership exist; for public production use add email verification, account recovery, external rate limiting, CSRF/cookie security review, audit logs, and retention/deletion policies.
+5. **Persistence**: No default free Render local filesystem durability is assumed. Free PostgreSQL is temporary; choose a long-lived managed storage plan with backups.
+6. **Data classification**: Academic data can be sensitive. Obtain permission to store and process marks.
 
-## CSV Format
+## Compatibility
 
-```text
-semester,subject,credits,cie,midsem,practical,ese,max_cie,max_midsem,max_practical,max_ese
-```
+V2's features and code remain available in app_v2_legacy.py. Existing V2 CSV exports are supported in V3 by supplying ese_pr and max_ese_pr as zero if absent. Uploaded/entered marks are validated against component maxima.
 
-Use `0` for any component that does not apply to a subject.
+## Smoke-test checklist before merging main
 
-## Technology Stack
+1. Run pytest and the Python compile checks in CI.
+2. Verify PostgreSQL database connectivity with DATABASE_URL.
+3. Create two different accounts and ensure each only sees its own data.
+4. Add, edit, delete and export marks. Import a V2 CSV.
+5. Validate ESE theory and practical marks and configure the grading scheme.
+6. Confirm backlog status, attendance, assignments, goals and PDF download.
+7. Check desktop/mobile responsive UI and chart display in a browser.
+8. Check Render logs and health endpoint; then approve the merge into main.
 
-- Python
-- Streamlit
-- Pandas
-- NumPy
-- Matplotlib
-- SQLite
-- ReportLab
-
-## Notes
-
-The SGPA/CGPA mapping in this project is a demo scale:
-
-- A+ = 10
-- A = 9
-- B+ = 8
-- B = 7
-- C = 6
-- D = 5
-- F = 0
-
-Change the grade mapping in `app.py` if your university has a different official formula.
-
-SQLite saves data to `academic_tracker.db` in the project folder. On some free cloud deployment platforms, local disk data may reset after redeployment or service restart.
+Do **not** merge until checks pass.

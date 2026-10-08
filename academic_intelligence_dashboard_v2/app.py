@@ -1,12 +1,14 @@
-"""Academic Intelligence entrypoint.
+"""Academic Intelligence safe entrypoint.
 
-V3 requires both durable database configuration and explicit rollout activation.
-V2 stays live until V3_ENABLED=1 and DATABASE_URL are both configured on Render.
+Roll out V3 only after persistent database configuration and explicit activation.
+Each Streamlit rerun must execute the legacy app afresh while V3 is disabled.
 """
 import os
+import runpy
+from pathlib import Path
 
 if os.getenv("V3_ENABLED", "") == "1" and os.getenv("DATABASE_URL", "").strip():
     from v3_dashboard import run
     run()
 else:
-    from app_v2_legacy import *  # noqa: F401,F403
+    runpy.run_path(str(Path(__file__).with_name("app_v2_legacy.py")), run_name="__main__")

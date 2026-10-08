@@ -57,6 +57,40 @@ div[data-testid="stMetricValue"] {color:#f3f5ff}
 @keyframes fadeup {from{opacity:.2;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
 [data-testid="stTabs"] button {border-radius:12px 12px 0 0}
 @media(max-width:768px){.hero{padding:22px}.block-container{padding-left:1rem;padding-right:1rem}.member{flex:1 1 100%}div[data-testid="stMetric"]{padding:12px}}
+
+/* IU Luxe — elevated glass surfaces and consistent interaction details */
+:root {--iu-gold:#e8c88e;--iu-surface:#121b31;--iu-hairline:rgba(192,204,246,.13)}
+.stApp {background-image:radial-gradient(circle at 90% 1%,rgba(110,80,225,.24),transparent 34%),radial-gradient(circle at 12% 33%,rgba(16,102,182,.13),transparent 38%),linear-gradient(180deg,#080d1d,#090d18 70%)}
+[data-testid="stSidebar"] {background:linear-gradient(170deg,#111b31,#090f20 75%);box-shadow:10px 0 40px rgba(0,0,0,.12)}
+[data-testid="stSidebar"] [data-testid="stRadio"] label {border-radius:12px;padding:6px 10px;transition:background .18s,color .18s}
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {background:rgba(151,130,255,.12)}
+[data-testid="stSidebar"] hr {border-color:rgba(177,197,240,.12)}
+.block-container {max-width:1480px;padding-top:1.3rem}
+.iu-topbar {display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 18px;color:#96a7c8;font-size:.75rem;letter-spacing:.10em;text-transform:uppercase;font-weight:700}
+.iu-status {display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(13,30,46,.85);border:1px solid rgba(120,215,186,.18);border-radius:40px;color:#9ce3cb;letter-spacing:.04em}
+.iu-status:before {content:"";display:inline-block;width:7px;height:7px;border-radius:100%;background:#55d8ae;box-shadow:0 0 12px rgba(85,216,174,.7)}
+.hero {background:radial-gradient(ellipse at 83% 18%,rgba(160,125,255,.35),transparent 48%),linear-gradient(118deg,#22214f,#182446 51%,#102239);padding:45px 43px;border:1px solid rgba(180,173,255,.24);box-shadow:0 24px 75px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.07);min-height:225px}
+.hero:before {content:"";position:absolute;right:48px;top:36px;width:120px;height:120px;border:1px solid rgba(232,200,142,.28);border-radius:30px;transform:rotate(18deg);box-shadow:0 0 0 21px rgba(232,200,142,.035),0 0 0 43px rgba(232,200,142,.025)}
+.hero:after {right:6%;top:-110px;width:370px;height:370px;background:radial-gradient(circle,rgba(146,124,255,.22),transparent 67%)}
+.hero h1 {font-size:clamp(2rem,3.4vw,3.25rem);font-weight:800;max-width:800px;letter-spacing:-.055em}
+.hero p {font-size:1.02rem;line-height:1.7;max-width:650px}
+.hero .eyebrow {color:#e8cb9a;letter-spacing:.2em;font-size:11px}
+.iu-chip {border-color:rgba(232,200,142,.36);color:#f7dfb5;background:rgba(9,10,28,.32)}
+.iu-section {padding:15px 0 5px;color:#cbd5f4;font-size:.83rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+.iu-intro {margin:14px 0 18px;color:#9daece;font-size:.94rem}
+div[data-testid="stMetric"] {border:1px solid rgba(172,174,255,.19);border-radius:22px;padding:23px 23px 18px;background:linear-gradient(138deg,rgba(33,44,82,.91),rgba(16,25,49,.95));box-shadow:0 17px 40px rgba(1,5,16,.23),inset 0 1px rgba(255,255,255,.035)}
+div[data-testid="stMetricValue"] {font-size:clamp(1.7rem,2.25vw,2.5rem);font-weight:800;letter-spacing:-.055em}
+div[data-testid="stMetricLabel"] {text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:700;color:#b0bddb}
+div[data-testid="stMetric"]::before {content:"";display:block;width:34px;height:3px;border-radius:8px;margin-bottom:15px;background:linear-gradient(90deg,#b6a3ff,#55b9fb)}
+[data-testid="stVerticalBlockBorderWrapper"] > div:has(> [data-testid="stVerticalBlock"]) {border-radius:20px}
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,[data-testid="stMultiSelect"] [data-baseweb="select"] > div,[data-testid="stTextInput"] input {background:rgba(22,32,57,.94)!important;border-color:rgba(156,173,231,.18)!important;border-radius:12px!important}
+[data-testid="stExpander"], [data-testid="stForm"] {background:rgba(16,25,48,.5);border:1px solid var(--iu-hairline)!important;border-radius:18px!important}
+.stButton button {border-radius:12px;transition:transform .2s,box-shadow .2s}
+.stButton button:hover {transform:translateY(-1px);box-shadow:0 8px 24px rgba(84,92,192,.22)}
+[data-testid="stTabs"] button {font-weight:700}
+@media(max-width:900px){.hero{padding:30px;min-height:unset}.hero:before{display:none}.iu-topbar{letter-spacing:.03em}}
+@media(max-width:620px){.hero{padding:24px 20px}.hero h1{font-size:1.95rem}.hero p{font-size:.91rem}.iu-topbar{font-size:.67rem}.iu-status{padding:6px 9px}.block-container{padding-left:.85rem;padding-right:.85rem}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 """
 
@@ -73,10 +107,12 @@ def engine_session():
 
 def header():
     st.markdown(CSS, unsafe_allow_html=True)
-    st.markdown('<section class="hero"><div class="eyebrow">INDUS UNIVERSITY · STUDENT ANALYTICS</div>'
-                '<h1>Academic Intelligence <span style="color:#ac9dff">V3.0</span></h1>'
-                '<p>Your premium IU academic workspace · grades, growth & goals in one place</p>'
-                '<span class="iu-chip">✦ Premium Dark Edition</span></section>',
+    st.markdown('<div class="iu-topbar"><span>IU / ACADEMIC INTELLIGENCE / STUDENT PORTAL</span>'
+                '<span class="iu-status">ACADEMIC WORKSPACE</span></div>'
+                '<section class="hero"><div class="eyebrow">INDUS UNIVERSITY · PRIVATE STUDENT WORKSPACE</div>'
+                '<h1>Your academic future,<br><span style="color:#d7c5ff">beautifully in focus.</span></h1>'
+                '<p>Track your performance, plan every semester, and make smarter moves toward your goals.</p>'
+                '<span class="iu-chip">✦ IU LUXE EDITION</span></section>',
                 unsafe_allow_html=True)
 
 
@@ -139,8 +175,8 @@ def auth_screen():
 
 def navigation():
     with st.sidebar:
-        st.markdown("### 🎓 INDUS UNIVERSITY")
-        st.caption("ACADEMIC INTELLIGENCE · V3.0")
+        st.markdown("### ◈ INDUS UNIVERSITY")
+        st.caption("I U  /  PREMIUM STUDENT PORTAL")
         st.caption("Signed in as " + st.session_state["username"])
         page = st.radio("Navigation", PAGE_NAMES, label_visibility="collapsed")
         st.divider()
@@ -169,7 +205,9 @@ def chart_style(fig):
 
 
 def dashboard(db, uid, marks, thresholds):
-    st.subheader("📊 Academic overview")
+    st.markdown('<div class="iu-section">01 / Performance intelligence</div>', unsafe_allow_html=True)
+    st.subheader("Your academic overview")
+    st.markdown('<div class="iu-intro">A clear view of your progress, strengths and next opportunities.</div>', unsafe_allow_html=True)
     if marks.empty:
         st.info("Your profile has no saved marks yet. Open Marks Entry to add a subject.")
         if st.button("Load sample demo subjects (only into this account)"):
@@ -187,6 +225,7 @@ def dashboard(db, uid, marks, thresholds):
             st.rerun()
         return
     semesters = summary(marks)
+    st.markdown("##### Explore your results")
     selected_semester = st.selectbox("📚 Semester", sorted(marks.semester.unique().tolist(), reverse=True),
                                       help="Explore any saved semester")
     latest = marks[marks.semester == selected_semester]
@@ -212,10 +251,10 @@ def dashboard(db, uid, marks, thresholds):
                         orientation="h",labels={"percentage":"Percentage","subject":"Subject"},
                         color="percentage",color_continuous_scale="Viridis")),
                         use_container_width=True)
-    st.markdown("#### Score component comparison")
+    st.markdown("#### Assessment breakdown")
     st.plotly_chart(chart_style(px.bar(focus, x="subject", y=list(COMPONENTS), barmode="group")),
                     use_container_width=True)
-    st.markdown("#### ✨ Smart insights")
+    st.markdown("#### ✨ Performance highlights")
     strong = latest.loc[latest.percentage.idxmax()]
     weak = latest.loc[latest.percentage.idxmin()]
     st.write("**Strongest:**", strong.subject, f"({strong.percentage:.1f}%)")

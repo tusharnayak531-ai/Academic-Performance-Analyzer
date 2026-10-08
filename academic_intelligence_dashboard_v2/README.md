@@ -33,7 +33,7 @@ Use an existing PostgreSQL database and set DATABASE_URL to its **internal** con
 - Start: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 - Health check: /_stcore/health
 
-On Render, persistent database configuration is required before enabling public registration. Verify the database is reachable, and back up any important data before upgrading. A Render free PostgreSQL plan has an expiration date and **is not suitable as permanent user-data storage**. Upgrade database service and configure backup/restore before using V3 with real student records.
+The checked-in entrypoint keeps V2 running **by default**. To switch to V3 safely, set two secret environment variables on the Render web service: `DATABASE_URL` to the database internal connection string and `V3_ENABLED=1`. Setting `V3_ENABLED=1` without `DATABASE_URL` keeps V2 running. Do this only after tests and backups.\n\nOn Render, persistent database configuration is required before enabling public registration. Verify the database is reachable, and back up any important data before upgrading. A Render free PostgreSQL plan has an expiration date and **is not suitable as permanent user-data storage**. Upgrade database service and configure backup/restore before using V3 with real student records.
 
 The V3 schema is intentionally separate (v3_* tables) so it never overwrites legacy V2 data. Do not remove the original app or local database until you've verified migrated records.
 

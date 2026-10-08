@@ -1,0 +1,29 @@
+name: Academic Intelligence V3 tests
+on:
+  push:
+    branches: [feature/academic-intelligence-v3]
+  pull_request:
+    paths:
+      - "academic_intelligence_dashboard_v2/**"
+      - ".github/workflows/v3-tests.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: academic_intelligence_dashboard_v2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: academic_intelligence_dashboard_v2/requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+      - name: Compile entire V3 application
+        run: python -m py_compile app.py v3_core.py v3_dashboard.py
+      - name: Test data isolation and calculators
+        run: pytest -q tests/test_v3.py

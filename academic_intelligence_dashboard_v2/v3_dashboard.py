@@ -31,21 +31,32 @@ PAGE_NAMES = ["Dashboard", "Marks Entry", "SGPA & CGPA", "9+ SGPA Planner",
               "Assignments", "Goals", "Predictions", "Report", "Grading Settings", "About"]
 CSS = """
 <style>
-:root {--brand:#7c65f6}
-.block-container {max-width:1440px;padding-top:1.6rem;padding-bottom:2rem}
-div[data-testid="stMetric"] {border:1px solid rgba(140,140,160,.2);border-radius:18px;
-padding:16px;background:linear-gradient(135deg,rgba(100,100,250,.09),rgba(10,190,200,.04))}
-.hero {padding:30px 30px 24px;border-radius:24px;margin-bottom:22px;
-background:linear-gradient(110deg,rgba(100,78,248,.20),rgba(20,161,233,.12),rgba(42,210,160,.07));
-border:1px solid rgba(130,130,170,.25)}
-.hero h1 {font-size:clamp(1.6rem,3vw,2.5rem);margin:0;letter-spacing:-.05em}
-.hero p {font-size:1rem;opacity:.78;margin:10px 0 0}
-.team {display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 22px}
-.member {padding:11px 16px;border:1px solid rgba(128,128,128,.22);border-radius:15px;
-background:rgba(100,100,180,.05);animation:fadeup .7s ease both}
-@keyframes fadeup {from{opacity:.1;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:700px){.hero{padding:20px}.block-container{padding-left:.9rem;padding-right:.9rem}
-.member{flex:1 1 100%}}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+:root {color-scheme:dark;--iu-violet:#8b78ff;--iu-blue:#42b7ff;--iu-ink:#080c1b;--iu-border:rgba(161,173,214,.15)}
+html,body,[class*="css"],[data-testid="stAppViewContainer"] {font-family:'DM Sans',sans-serif}
+.stApp {background:radial-gradient(ellipse at 85% -20%,rgba(85,59,188,.22),transparent 52%),radial-gradient(ellipse at 0% 50%,rgba(24,87,149,.14),transparent 50%),#080c1b;color:#edf1ff}
+[data-testid="stSidebar"] {background:linear-gradient(180deg,#11172b,#0b1020);border-right:1px solid var(--iu-border)}
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {color:#b9c6e9}
+.block-container {max-width:1450px;padding-top:1.1rem;padding-bottom:3rem}
+h1,h2,h3 {letter-spacing:-.035em}
+div[data-testid="stMetric"] {background:linear-gradient(140deg,rgba(81,84,173,.20),rgba(17,28,57,.86));border:1px solid var(--iu-border);border-radius:20px;padding:20px 20px 16px;box-shadow:0 12px 38px rgba(0,0,0,.13);transition:transform .2s}
+div[data-testid="stMetric"]:hover {transform:translateY(-3px)}
+div[data-testid="stMetricLabel"] {color:#aab9da}
+div[data-testid="stMetricValue"] {color:#f3f5ff}
+[data-testid="stForm"],[data-testid="stExpander"],[data-testid="stDataFrame"] {border-radius:16px!important;border-color:var(--iu-border)!important}
+.stButton button[kind="primary"],button[data-testid="stBaseButton-primary"] {background:linear-gradient(115deg,#6458d9,#357ebd);border:0;border-radius:12px}
+.hero {padding:34px 36px;margin:5px 0 22px;border-radius:25px;overflow:hidden;position:relative;background:linear-gradient(114deg,rgba(82,70,175,.42),rgba(19,51,100,.45),rgba(12,22,44,.95));border:1px solid rgba(155,162,255,.22);box-shadow:0 18px 65px rgba(4,9,27,.25)}
+.hero:after {content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-65px;top:-130px;background:radial-gradient(circle,rgba(80,169,255,.23),transparent 70%)}
+.hero .eyebrow {color:#c9beff;font-size:12px;text-transform:uppercase;letter-spacing:.17em;font-weight:800}
+.hero h1 {font-size:clamp(1.7rem,3vw,2.5rem);margin:7px 0;line-height:1.15;color:#fff}
+.hero p {font-size:1rem;color:#c3ccea;margin:8px 0 0}
+.iu-chip {display:inline-block;margin-top:17px;padding:7px 12px;border:1px solid rgba(157,172,255,.25);border-radius:40px;background:rgba(0,0,0,.16);color:#e3e5ff;font-size:12px}
+.team {display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 22px}
+.member {padding:11px 16px;border:1px solid var(--iu-border);border-radius:13px;background:rgba(24,30,58,.8);color:#c1cbea;animation:fadeup .5s ease both}
+.member strong {color:#f4f5ff}
+@keyframes fadeup {from{opacity:.2;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+[data-testid="stTabs"] button {border-radius:12px 12px 0 0}
+@media(max-width:768px){.hero{padding:22px}.block-container{padding-left:1rem;padding-right:1rem}.member{flex:1 1 100%}div[data-testid="stMetric"]{padding:12px}}
 </style>
 """
 
@@ -62,8 +73,10 @@ def engine_session():
 
 def header():
     st.markdown(CSS, unsafe_allow_html=True)
-    st.markdown('<section class="hero"><h1>🎓 Academic Intelligence V3.0</h1>'
-                '<p>Your private academic command centre • marks, goals, insights & predictions</p></section>',
+    st.markdown('<section class="hero"><div class="eyebrow">INDUS UNIVERSITY · STUDENT ANALYTICS</div>'
+                '<h1>Academic Intelligence <span style="color:#ac9dff">V3.0</span></h1>'
+                '<p>Your premium IU academic workspace · grades, growth & goals in one place</p>'
+                '<span class="iu-chip">✦ Premium Dark Edition</span></section>',
                 unsafe_allow_html=True)
 
 
@@ -126,7 +139,8 @@ def auth_screen():
 
 def navigation():
     with st.sidebar:
-        st.markdown("### 🎓 StudentScope V3")
+        st.markdown("### 🎓 INDUS UNIVERSITY")
+        st.caption("ACADEMIC INTELLIGENCE · V3.0")
         st.caption("Signed in as " + st.session_state["username"])
         page = st.radio("Navigation", PAGE_NAMES, label_visibility="collapsed")
         st.divider()
@@ -144,8 +158,13 @@ def get_rows(db, uid):
 
 
 def chart_style(fig):
-    fig.update_layout(margin=dict(t=20,b=20,l=10,r=10),
-                      legend_title_text="", height=320)
+    fig.update_layout(margin=dict(t=22,b=18,l=8,r=8),
+                      legend_title_text="", height=345, template="plotly_dark",
+                      paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",
+                      font=dict(color="#d6ddf6",family="DM Sans"),
+                      colorway=["#9686ff","#50b9ff","#4fd7c7","#f3b66d","#ef83bb"])
+    fig.update_xaxes(gridcolor="rgba(180,200,255,.10)",zerolinecolor="rgba(180,200,255,.12)")
+    fig.update_yaxes(gridcolor="rgba(180,200,255,.10)",zerolinecolor="rgba(180,200,255,.12)")
     return fig
 
 
@@ -168,12 +187,18 @@ def dashboard(db, uid, marks, thresholds):
             st.rerun()
         return
     semesters = summary(marks)
-    latest = marks[marks.semester == marks.semester.max()]
+    selected_semester = st.selectbox("📚 Semester", sorted(marks.semester.unique().tolist(), reverse=True),
+                                      help="Explore any saved semester")
+    latest = marks[marks.semester == selected_semester]
+    selected_subjects = st.multiselect("📖 Focus subjects", sorted(latest.subject.unique().tolist()),
+                                       default=sorted(latest.subject.unique().tolist()),
+                                       help="Filter the subject comparison charts")
+    focus = latest[latest.subject.isin(selected_subjects)]
     pending = sum(b.status != "Cleared" for b in owned(db, Backlog, uid))
     c1,c2,c3,c4 = st.columns(4)
     c1.metric("Estimated CGPA", f"{cgpa(marks):.2f}")
-    c2.metric("Latest SGPA", f"{semesters.iloc[-1].sgpa:.2f}")
-    c3.metric("Latest average", f"{latest.percentage.mean():.1f}%")
+    c2.metric("Selected SGPA", f"{semesters[semesters.semester == selected_semester].iloc[0].sgpa:.2f}")
+    c3.metric("Selected average", f"{latest.percentage.mean():.1f}%")
     c4.metric("Pending backlogs", pending)
     left,right = st.columns(2)
     with left:
@@ -183,12 +208,12 @@ def dashboard(db, uid, marks, thresholds):
                         use_container_width=True)
     with right:
         st.markdown("#### Latest semester")
-        st.plotly_chart(chart_style(px.bar(latest.sort_values("percentage"), x="percentage",y="subject",
+        st.plotly_chart(chart_style(px.bar(focus.sort_values("percentage"), x="percentage",y="subject",
                         orientation="h",labels={"percentage":"Percentage","subject":"Subject"},
                         color="percentage",color_continuous_scale="Viridis")),
                         use_container_width=True)
     st.markdown("#### Score component comparison")
-    st.plotly_chart(chart_style(px.bar(latest, x="subject", y=list(COMPONENTS), barmode="group")),
+    st.plotly_chart(chart_style(px.bar(focus, x="subject", y=list(COMPONENTS), barmode="group")),
                     use_container_width=True)
     st.markdown("#### ✨ Smart insights")
     strong = latest.loc[latest.percentage.idxmax()]
@@ -202,13 +227,23 @@ def dashboard(db, uid, marks, thresholds):
 
 
 def marks_entry(db, uid, marks):
-    st.subheader("✍️ Marks entry and CSV import")
+    st.subheader("✍️ IU Marks Entry & CSV Import")
+    st.caption("Indus University · Semester 1–8 · subject-specific theory and practical components")
     add, upload, delete = st.tabs(["Add / update", "Import CSV", "Delete"])
     with add:
         with st.form("v3_mark_form"):
             a,b,c = st.columns(3)
-            semester = a.number_input("Semester", 1, 12, 5)
-            subject = b.text_input("Subject name")
+            semester = a.selectbox("IU Semester", list(range(1, 9)), index=4)
+            suggestions = {
+                5: ["CN", "DAA", "PSC", "EEWM", "AMP", "WT"],
+                4: ["BCPS", "COA", "DSA", "CJP", "MCS", "ROM"],
+                3: ["OS", "OOCP", "Mathematics", "Core Java"],
+                2: ["PPS", "Engineering Graphics", "Mathematics II"],
+                1: ["Engineering Physics", "Mathematics I", "Programming Fundamentals"]
+            }
+            subject_choice = b.selectbox("IU Subject", ["Custom subject"] + suggestions.get(semester, []),
+                                         help="Quick suggestions; confirm against your current syllabus")
+            subject = b.text_input("Custom subject name") if subject_choice == "Custom subject" else subject_choice
             credits = c.number_input("Credits", min_value=0.,max_value=20.,value=4.,step=.5)
             st.caption("Enter CIE theory, mid-sem theory, CIE practical, ESE practical and ESE theory individually.")
             vals = {}
@@ -259,7 +294,7 @@ def marks_entry(db, uid, marks):
 
 
 def sgpa_page(marks):
-    st.subheader("🧮 SGPA & CGPA")
+    st.subheader("🎓 IU SGPA & CGPA Overview")
     if marks.empty:
         st.info("Add marks to see your results.")
         return
@@ -291,7 +326,7 @@ def target_page():
 
 
 def planner_page(marks, thresholds):
-    st.subheader("🚀 Advanced 9+ SGPA target planner")
+    st.subheader("🎯 IU Advanced 9+ SGPA Planner")
     if marks.empty:
         st.info("Add semester marks to create a target plan.")
         return
@@ -335,7 +370,7 @@ def planner_page(marks, thresholds):
 
 
 def backlog_page(db,uid):
-    st.subheader("📚 Backlog management")
+    st.subheader("📚 IU Backlog Management")
     with st.form("backlog_form"):
         a,b,c = st.columns(3)
         sem = a.number_input("Semester",1,12,4,key="backlog_sem")
@@ -480,7 +515,7 @@ def predictions_page(marks):
 
 
 def grading_page(db,uid,marks,thresholds):
-    st.subheader("⚙️ University grading configuration")
+    st.subheader("⚙️ IU Grade Mapping · Configurable")
     st.warning("Default boundaries are DEMONSTRATION values, not verified Indus University rules. "
                "Confirm your official scheme and component-level pass requirements.")
     st.caption("Enter a grade point (0–10) for each minimum overall percentage.")
@@ -569,7 +604,7 @@ def report_page(db,uid,marks):
 
 
 def about_page():
-    st.subheader("ℹ️ Academic Intelligence V3.0")
+    st.subheader("ℹ️ Indus University Academic Intelligence V3.0")
     members()
     st.markdown("**Built with:** Streamlit, Python, SQLAlchemy, PostgreSQL/SQLite, "
                 "Pandas, NumPy, Plotly and ReportLab.")
